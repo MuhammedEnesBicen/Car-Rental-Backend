@@ -1,0 +1,23 @@
+﻿--create database CarRental;
+use CarRental;
+create table Brands(BrandId int primary key, BrandName Char(50));
+create table Colors(ColorId int primary key, ColorName Char(50));
+create table Cars(CarId int primary key, BrandId int foreign key REFERENCES Brands(BrandId),
+ColorId int foreign key references Colors(ColorId), ModelYear DateTime ,
+DailyPrice decimal ,Description Char(100));
+
+insert into Brands values(1,'Volvo');
+insert into Brands values(2,'Wolksvagen');
+insert into Brands values(3,'Land Rover');
+
+insert into Colors values(1,'Red');
+insert into Colors values(2,'White');
+insert into Colors values(3,'Golden');
+insert into Colors values(4,'Green');
+
+insert into Cars values(1,1,2,'12.21.2020',120.000,'New Volvo s90');
+insert into Cars values(2,2,2,'12.21.2020',120.000,'New Wolksvagen passat');
+insert into Cars values(3,2,2,'12.21.2020',120.000,'New Wolksvagen Transporter');
+insert into Cars values(4,2,2,'12.21.2020',120.000,'New Wolksvagen Golf');
+insert into Cars values(5,3,2,'12.21.2020',120.000,'New Land Rover Black Range');
+insert into Cars values(6,3,2,'12.21.2020',120.000,'New Land Rover White Range');
