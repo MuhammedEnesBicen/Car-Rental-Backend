@@ -10,21 +10,29 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            InMemoryCarDal inMemoryCarDal = new InMemoryCarDal();
-            Car a = new Car { CarId = 7, BrandId = 1, ColorId = 1, ModelYear = new DateTime(2020,12,12), DailyPrice = 200000, Description = "Qashqai" };
-            inMemoryCarDal.Add(a );
+            //Data Transformation Object
+            CarTest();
+            //IoC 
+            //BrandTest();
 
-            EfCarDal efCarDal = new EfCarDal();
-            
-            //efCarDal.Add(a); is added
-            CarManager carManager = new CarManager(efCarDal);
-            
-            
-            foreach (var car in carManager.GetCarsByColorId(2))
+        }
+        private static void BrandTest()
+        {
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            foreach (var brand in brandManager.GetAll())
             {
-                Console.WriteLine(car.Description);
+                Console.WriteLine(brand.BrandName);
             }
-            
+        }
+
+        private static void CarTest()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine(car.CarName.Trim() + "/" + car.BrandName.Trim() + "/"+car.ColorName.Trim() + "/" + car.DailyPrice);
+            }
         }
     }
 }
