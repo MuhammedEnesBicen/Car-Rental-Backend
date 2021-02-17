@@ -11,15 +11,23 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             //Data Transformation Object
-            CarTest();
+            //CarTest();
             //IoC 
             //BrandTest();
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            //rentalManager.Add(new Rental {  CarId = 4, CustomerId = 2, RentDate = DateTime.Now}) ;
+            var result = rentalManager.GetRentalDetails();
+            foreach (var item in result.Data)
+            {
+                Console.WriteLine(item.CarName+"\t"+item.CustomerName);
+            }
 
         }
         private static void BrandTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine(brand.BrandName);
             }
@@ -28,11 +36,19 @@ namespace ConsoleUI
         private static void CarTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success)
             {
-                Console.WriteLine(car.CarName.Trim() + "/" + car.BrandName.Trim() + "/"+car.ColorName.Trim() + "/" + car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.CarName.Trim() + "/" + car.BrandName.Trim() + "/" + car.ColorName.Trim() + "/" + car.DailyPrice);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            
         }
     }
 }
