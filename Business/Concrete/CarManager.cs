@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,15 +21,11 @@ namespace Business.Concrete
         {
             _iCarDal = iCarDal;
         }
+
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
             //bussiness kodları buraya yazılır
-
-            if (car.CarName.Length < 2)
-            {
-                //magic strings
-                return new ErrorResult(Messages.CarNameInvalid);
-            }
             _iCarDal.Add(car);
             
             return new SuccessResult(Messages.CarAdded);
