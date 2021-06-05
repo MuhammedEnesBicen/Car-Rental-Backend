@@ -12,8 +12,10 @@ namespace Entities.Concrete
         public string CarName { get; set; }
         public int BrandId { get; set; }
         public int ColorId { get; set; }
-        public DateTime ModelYear { get; set; }
+        public int ModelYear { get; set; }
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
+        public bool IsRented { get; set; }//added date: 5 22 21
+        public string Thumbnail { get; set; }
     }
 }

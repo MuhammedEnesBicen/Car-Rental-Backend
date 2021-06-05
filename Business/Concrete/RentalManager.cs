@@ -13,22 +13,62 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
+        ICarDal _carDal;
 
-        public RentalManager(IRentalDal rentalDal)
+        public RentalManager(IRentalDal rentalDal, ICarDal carDal)
         {
             _rentalDal = rentalDal;
+            _carDal = carDal;
         }
 
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.Get(c=> c.CarId ==rental.CarId && c.ReturnDate==null);
+            var result = _rentalDal.Get(c=> c.CarId ==rental.CarId);
             if (result!=null)
             {
     
                     return new ErrorResult(Messages.RentalNotAdded);
             }
+            Car car = _carDal.Get(c => c.CarId == rental.CarId);
+            if (car!= null)
+            {
+                car.IsRented = true;
+                _carDal.Update(car);
+            }
+            
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
+        }
+
+        public IResult Delete(Rental rental)
+        {
+            Car car = _carDal.Get(c => c.CarId == rental.CarId);
+            if (car != null)
+            {
+                car.IsRented = false;
+                _carDal.Update(car);
+            }
+
+
+            _rentalDal.Delete(rental);
+            return new SuccessResult("Rental had deleted successfuly");
+        }
+
+        public IResult DeleteByCarId(int carId)
+        {
+            Car car = _carDal.Get(c => c.CarId == carId);
+            car.IsRented = false;
+            _carDal.Update(car);
+            Rental rental = _rentalDal.Get(c => c.CarId == carId);
+            if (rental != null)
+            {
+                _rentalDal.Delete(rental);
+                return new SuccessResult("Rental had deleted successfuly");
+            }
+            else
+            {
+                return new SuccessResult("Rental didnt find");
+            }
         }
 
         public IDataResult<List<Rental>> GetAll()

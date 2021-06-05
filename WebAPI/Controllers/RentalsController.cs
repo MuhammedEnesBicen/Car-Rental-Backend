@@ -95,5 +95,40 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(Rental rental)
+        {
+            var result = _rentalService.Delete(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("deletebycarid")]
+        public IActionResult DeleteByCarId(int carId)
+        {
+            var result = _rentalService.DeleteByCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+            //var temp = _rentalService.GetRentalsByCarId(carId);
+            //if (temp.Success)
+            //{
+            //    Rental temp2 = temp.Data[0];
+            //    var result = _rentalService.Delete(temp2);
+            //    if (result.Success)
+            //    {
+            //        return Ok(result);
+            //    }
+            //    return BadRequest(result);
+            //}
+            //return BadRequest("DElete not succesful");
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Business.Concrete;
+﻿ using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -49,6 +49,13 @@ namespace ConsoleUI
                 Console.WriteLine(result.Message);
             }
             
+        }
+
+        private static void LoadingImageForACar()
+        {
+            Console.WriteLine("Please enter the car id");
+            int carId = Convert.ToInt32(Console.ReadLine());
+
         }
     }
 }

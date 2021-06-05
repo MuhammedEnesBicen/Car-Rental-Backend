@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -14,5 +15,9 @@ namespace Business.Constants
 
         public static string RentalAdded = "Rental added";
         public static string RentalNotAdded = "Rental Not added, there is a car who has same car id";
+        public static string ImageAdded="İmage added";
+        public static string ImagesListed="image listed";
+        public static string AuthorizationDenied = "Authorization denied";
+        internal static string CarHasFiveImages="Car already has 5 images you cant added more";
     }
 }
