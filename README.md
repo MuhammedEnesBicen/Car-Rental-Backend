@@ -4,9 +4,9 @@ The Car rental system I have developed in corporate structure
 
 ## Setup
 
--Download this project and open it in Visual Studio
--Then to prepare the database, right click on the server where your databases are located (usually (localdb)\MSSQLLocalDB.) in SQL Server Object Explorer (View-> SQL Server Object Explorer) in Visual Studio and click on the new query option. Copy and paste the contents of the query-car-rental-database file located in the project folder into the query file and run it. Your database needs to be created. In order to perform this operation, you must have selected the option to install mssql while installing visual studio.
--Right-click the WebAPI project and click set as startup project. You can now run the Project, but you must also run the frontend part of the project to see the result.(frontend: https://github.com/MuhammedEnesBicen/Car-Rental-Frontend)
+- Download this project and open it in Visual Studio
+- Then to prepare the database, right click on the server where your databases are located (usually (localdb)\MSSQLLocalDB.) in SQL Server Object Explorer (View-> SQL Server Object Explorer) in Visual Studio and click on the new query option. Copy and paste the contents of the query-car-rental-database file located in the project folder into the query file and run it. Your database needs to be created. In order to perform this operation, you must have selected the option to install mssql while installing visual studio.
+- Right-click the WebAPI project and click set as startup project. You can now run the Project, but you must also run the frontend part of the project to see the result.(frontend: https://github.com/MuhammedEnesBicen/Car-Rental-Frontend)
 
 ## Project Images
 
