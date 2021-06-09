@@ -1,0 +1,106 @@
+create database CarRental;
+go
+use CarRental;
+CREATE TABLE [dbo].[Brands] (
+    [BrandId]   INT       IDENTITY (1, 1) NOT NULL,
+    [BrandName] CHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([BrandId] ASC)
+);
+go
+CREATE TABLE [dbo].[Colors] (
+    [ColorId]   INT       IDENTITY (1, 1) NOT NULL,
+    [ColorName] CHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([ColorId] ASC)
+);
+
+go
+
+CREATE TABLE [dbo].[Cars] (
+    [CarId]       INT            IDENTITY (1, 1) NOT NULL,
+    [CarName]     NVARCHAR (100) NULL,
+    [BrandId]     INT            NULL,
+    [ColorId]     INT            NULL,
+    [ModelYear]   INT            NULL,
+    [DailyPrice]  DECIMAL (18)   NULL,
+    [Description] NVARCHAR (900) NULL,
+    [IsRented]    BIT            NULL,
+    [Thumbnail]   NVARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([CarId] ASC),
+    FOREIGN KEY ([BrandId]) REFERENCES [dbo].[Brands] ([BrandId]),
+    FOREIGN KEY ([ColorId]) REFERENCES [dbo].[Colors] ([ColorId])
+);
+CREATE TABLE [dbo].[CarImages] (
+    [Id]        INT            IDENTITY (1, 1) NOT NULL,
+    [CarId]     INT            NULL,
+    [ImagePath] NVARCHAR (180) NULL,
+    [LoadDate]  DATETIME       NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    FOREIGN KEY ([CarId]) REFERENCES [dbo].[Cars] ([CarId])
+);
+go
+
+
+CREATE TABLE [dbo].[Customers] (
+    [Id]          INT           NOT NULL,
+    [UserId]      INT           NULL,
+    [CompanyName] VARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+go
+CREATE TABLE [dbo].[OperationClaims] (
+    [Id]   INT           IDENTITY (1, 1) NOT NULL,
+    [Name] VARCHAR (250) NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+go
+CREATE TABLE [dbo].[Rentals] (
+    [Id]         INT      IDENTITY (1, 1) NOT NULL,
+    [CarId]      INT      NULL,
+    [CustomerId] INT      NULL,
+    [RentDate]   DATETIME NULL,
+    [ReturnDate] DATETIME CONSTRAINT [DF_Cars_ReturnDate] DEFAULT (NULL) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    FOREIGN KEY ([CarId]) REFERENCES [dbo].[Cars] ([CarId])
+);
+
+go
+CREATE TABLE [dbo].[UserOperationClaims] (
+    [Id]               INT IDENTITY (1, 1) NOT NULL,
+    [UserId]           INT NOT NULL,
+    [OperationClaimId] INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+go
+CREATE TABLE [dbo].[Users] (
+    [Id]           INT             IDENTITY (1, 1) NOT NULL,
+    [FirstName]    VARCHAR (50)    NOT NULL,
+    [LastName]     VARCHAR (50)    NOT NULL,
+    [Email]        VARCHAR (50)    NOT NULL,
+    [PasswordHash] VARBINARY (500) NOT NULL,
+    [PasswordSalt] VARBINARY (500) NOT NULL,
+    [Status]       BIT             NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+go
+insert into Brands values('Volvo');
+insert into Brands values('Wolksvagen');
+insert into Brands values('Land Rover');
+go
+insert into Colors values('Red');
+insert into Colors values('White');
+insert into Colors values('Golden');
+insert into Colors values('Green');
+go
+insert into Cars values('Volvo s90',1,2,2020,120.000,'New Volvo s90',0, 'https://images.unsplash.com/photo-1619943798168-aa763a95fb26?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTh8fHZvbHZvJTIwczQ1fGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+insert into Cars values('range rover',1,2,2020,120.000,'Land Rover is a British brand of predominantly four-wheel drive, off-road capable vehicles, owned by multinational car manufacturer Jaguar Land Rover (JLR), since 2008 a subsidiary of Indias Tata Motors. ... Since then all Land Rovers and Range Rovers have a unified body and frame structure.',1, 'https://images.unsplash.com/photo-1610625679301-38642e0a60bd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bGFuZCUyMHJvdmVyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+insert into Cars values('Citroën c5',1,2,2020,120.000,'Citroën (French pronunciation: ​[sitʁɔɛn]) is a French brand of automobiles and motor vehicles owned by Citroën, since 2021 a subsidiary of Stellantis. In 1934, the firm established its reputation for innovative technology with the Traction Avant.',1, 'https://images.unsplash.com/photo-1605007728419-d4203400355d?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGNpdHJvJUMzJUFCbnxlbnwwfDB8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+insert into Cars values('Wolksvagen passat',1,2,2020,120.000,'The Volkswagen Passat is a series of large family cars manufactured and marketed by the German automobile manufacturer Volkswagen since 1973, and now in its eighth generation. It has been marketed variously as the Dasher, Santana, Quantum, Magotan, Corsar and Carat',1, 'https://images.unsplash.com/photo-1611845128941-b7797d028d1e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHBhc3NhdHxlbnwwfDB8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+insert into Cars values('cadillac',1,2,2020,120.000,'Cadillac, officially the Cadillac Division of the General Motors Company, is a luxury car maker, owned by General Motors. ... By the 1950s and 1960s, it had become famous for making high-quality and luxurious cars, often setting the standard for automotive styling.',1, 'https://images.unsplash.com/photo-1560332219-7d9ac8dead94?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjJ8fGNhZGlsbGFjfGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+go
+insert into Users values('user','user','user',1234,1234,0);
+insert into Users values('admin','admin','admin',1234,1234,1);
+go
+
